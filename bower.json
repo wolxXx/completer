@@ -1,0 +1,31 @@
+{
+  "name": "completer",
+  "version": "0.2.0",
+  "authors": [
+    "wolxXx <https://github.com/wolxXx>"
+  ],
+  "description": "completer",
+  "main": "autocompletion.js",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "js",
+    "vanilla js",
+    "javascript",
+    "vanilla javascript",
+    "autocompletion",
+    "autocompleter",
+    "autoc ompleter",
+    "auto completer"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wolxXx/completer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

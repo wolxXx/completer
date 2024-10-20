@@ -1,0 +1,47 @@
+{
+  "name": "completer",
+  "version": "0.2.0",
+  "keywords": [
+    "js",
+    "vanilla js",
+    "javascript",
+    "vanilla javascript",
+    "autocompletion",
+    "autocompleter",
+    "autoc ompleter",
+    "auto completer"
+  ],
+  "description": "completer",
+  "homepage": "https://github.com/wolxXx/completer",
+  "author": "wolxXx (https://github.com/wolxXx)",
+  "contributors": [
+    "wolxXx <https://github.com/wolxXx>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wolxXx/completer.git"
+  },
+  "browserslist": [
+    ">= 0.5%",
+    "not dead",
+    "Chrome >= 60",
+    "Firefox >= 60",
+    "Firefox ESR",
+    "Edge >= 17",
+    "iOS >= 12",
+    "Safari >= 12",
+    "not Explorer <= 11"
+  ],
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-cli": "*",
+    "gulp-concat": "^2.6.1",
+    "jest": "*",
+    "jest-html-reporter": "^3.10.2"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/gulp",
+    "test": "jest --coverage"
+  }
+}
