@@ -1,0 +1,19 @@
+{
+  "verbose": true,
+  "setupFiles": [
+  ],
+  "collectCoverage": true,
+  "coverageReporters": [
+    "json",
+    "html"
+  ],
+  "reporters": [
+    "default",
+    [
+      "./node_modules/jest-html-reporter",
+      {
+        "pageTitle": "Test Report"
+      }
+    ]
+  ]
+}
