@@ -1,0 +1,7 @@
+services:
+  node:
+    container_name: "autocompletecontainer"
+    build: ./
+    restart: always
+    volumes:
+      - ./:/tmp
