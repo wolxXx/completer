@@ -16,6 +16,7 @@ class Autocomplete {
         this.userInput = document.createElement('input')
         this.userInput.id = 'userInputFor' + this.instance;
         this.userInput.style.width = '100%';
+        this.userInput.setAttribute('placeholder', this.configuration.translationPlaceholder);
 
         this.resultsContainer = document.createElement('div');
 
@@ -231,7 +232,7 @@ class Autocomplete {
         }
 
         this.values = this.values.filter((thisValue) => {
-            return value != thisValue
+            return value[this.configuration.valueKeyOfData] !== thisValue[this.configuration.valueKeyOfData]
         })
 
         return this;
@@ -313,10 +314,12 @@ class Autocomplete {
         closer.style['border-radius'] = '5px'
         closer.style['margin-right'] = '10px'
         closer.style['cursor'] = 'pointer'
+        closer.setAttribute('title', this.configuration.translationRemoveResult)
 
         closer.addEventListener('click', () => {
             element.remove()
             this.removeValue(item)
+            this.display()
             this.userInput.focus()
         })
         element.prepend(closer)

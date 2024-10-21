@@ -209,3 +209,20 @@ test('check defaults', () => {
     expect(conf.translationErrorMessage).toBe('an error occurred')
 });
 
+test('check set translation', () => {
+    const conf = new AutoCompleteConfiguration()
+    expect(conf.translationErrorMessage).toBe('an error occurred')
+    expect(conf.setTranslationErrorMessage("nix gut das").translationErrorMessage).toBe('nix gut das')
+});
+
+test('check defaults', () => {
+    const conf = new AutoCompleteConfiguration()
+    expect(conf.translationRemoveResult).toBe('remove result')
+});
+
+test('check set translation', () => {
+    const conf = new AutoCompleteConfiguration()
+    expect(conf.translationRemoveResult).toBe('remove result')
+    expect(conf.setTranslationRemoveResult('dingsibumsi löschilöschi').translationRemoveResult).toBe('dingsibumsi löschilöschi')
+});
+

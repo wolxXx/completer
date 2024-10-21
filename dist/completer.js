@@ -16,6 +16,7 @@ class Autocomplete {
         this.userInput = document.createElement('input')
         this.userInput.id = 'userInputFor' + this.instance;
         this.userInput.style.width = '100%';
+        this.userInput.setAttribute('placeholder', this.configuration.translationPlaceholder);
 
         this.resultsContainer = document.createElement('div');
 
@@ -231,7 +232,7 @@ class Autocomplete {
         }
 
         this.values = this.values.filter((thisValue) => {
-            return value != thisValue
+            return value[this.configuration.valueKeyOfData] !== thisValue[this.configuration.valueKeyOfData]
         })
 
         return this;
@@ -313,10 +314,12 @@ class Autocomplete {
         closer.style['border-radius'] = '5px'
         closer.style['margin-right'] = '10px'
         closer.style['cursor'] = 'pointer'
+        closer.setAttribute('title', this.configuration.translationRemoveResult)
 
         closer.addEventListener('click', () => {
             element.remove()
             this.removeValue(item)
+            this.display()
             this.userInput.focus()
         })
         element.prepend(closer)
@@ -474,8 +477,10 @@ class AutocompleteConfiguration {
         this.requestEndCallback = null; // a callback when the ajax search finished
         this.selectCallback = null; // a callback when a result item was selected
 
+        this.translationPlaceholder = 'type to search'; // the translation for not finding any result
         this.translationNoResults = 'no results'; // the translation for not finding any result
         this.translationPickResult = 'pick result'; // the translation for pick a result
+        this.translationRemoveResult = 'remove result'; // the translation for pick a result
         this.translationClearResults = 'clear results'; // the translation for clear all results
         this.translationMoreResults = 'more results'; // the translation for search for more results
         this.translationErrorMessage = 'an error occurred'; // the translation if an error occurred
@@ -808,6 +813,16 @@ class AutocompleteConfiguration {
      */
     setSelectCallback(value) {
         this.selectCallback = value;
+
+        return this;
+    }
+
+    /**
+     * @param {string} value
+     * @returns {AutocompleteConfiguration}
+     */
+    setTranslationPlaceholder(value) {
+        this.translationPlaceholder = value;
 
         return this;
     }

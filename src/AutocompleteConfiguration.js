@@ -51,8 +51,10 @@ class AutocompleteConfiguration {
         this.requestEndCallback = null; // a callback when the ajax search finished
         this.selectCallback = null; // a callback when a result item was selected
 
+        this.translationPlaceholder = 'type to search'; // the translation for not finding any result
         this.translationNoResults = 'no results'; // the translation for not finding any result
         this.translationPickResult = 'pick result'; // the translation for pick a result
+        this.translationRemoveResult = 'remove result'; // the translation for pick a result
         this.translationClearResults = 'clear results'; // the translation for clear all results
         this.translationMoreResults = 'more results'; // the translation for search for more results
         this.translationErrorMessage = 'an error occurred'; // the translation if an error occurred
@@ -393,6 +395,16 @@ class AutocompleteConfiguration {
      * @param {string} value
      * @returns {AutocompleteConfiguration}
      */
+    setTranslationPlaceholder(value) {
+        this.translationPlaceholder = value;
+
+        return this;
+    }
+
+    /**
+     * @param {string} value
+     * @returns {AutocompleteConfiguration}
+     */
     setTranslationNoResults(value) {
         this.translationNoResults = value;
 
@@ -435,6 +447,16 @@ class AutocompleteConfiguration {
      */
     setTranslationErrorMessage(value) {
         this.translationErrorMessage = value;
+
+        return this;
+    }
+
+    /**
+     * @param {string} value
+     * @returns {AutocompleteConfiguration}
+     */
+    setTranslationRemoveResult(value) {
+        this.translationRemoveResult = value;
 
         return this;
     }
