@@ -12,6 +12,12 @@ class Autocomplete {
             throw new AutocompleteConfigurationValidationError('element not found');
         }
 
+        if ('select' === this.input.tagName.toLowerCase()) {
+            this.input.querySelectorAll('option').forEach((option) => {
+                option.remove()
+            })
+        }
+
         this.input.style.display = 'none'
         this.userInput = document.createElement('input')
         this.userInput.id = 'userInputFor' + this.instance;
@@ -295,8 +301,12 @@ class Autocomplete {
 
         }
         if (1 !== this.configuration.maxItemsSelected) {
-            //element.style['min-width'] = '150px'
             element.style['margin-right'] = '5px'
+            const hiddenValueElement = document.createElement('input')
+            hiddenValueElement.setAttribute('type', 'hidden')
+            hiddenValueElement.setAttribute('name', this.input.getAttribute('name'))
+            hiddenValueElement.setAttribute('value', item[this.configuration.valueKeyOfData])
+            element.prepend(hiddenValueElement)
         }
 
         element.style.display = 'inline-block'
