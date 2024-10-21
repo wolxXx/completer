@@ -876,6 +876,16 @@ class AutocompleteConfiguration {
 
         return this;
     }
+
+    /**
+     * @param {string} value
+     * @returns {AutocompleteConfiguration}
+     */
+    setTranslationRemoveResult(value) {
+        this.translationRemoveResult = value;
+
+        return this;
+    }
 }
 
 class AutocompleteConfigurationValidationError extends Error {
