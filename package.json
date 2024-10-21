@@ -37,6 +37,7 @@
     "gulp": "*",
     "gulp-cli": "*",
     "gulp-concat": "^2.6.1",
+    "gulp-delete-lines": "^0.0.7",
     "jest": "*",
     "jest-html-reporter": "^3.10.2"
   },

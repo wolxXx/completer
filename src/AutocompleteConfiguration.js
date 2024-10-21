@@ -440,6 +440,6 @@ class AutocompleteConfiguration {
     }
 }
 
-if (typeof module != 'undefined') {
-    module.exports = AutocompleteConfiguration
-}
+if (typeof module != 'undefined') { // cut me
+    module.exports = AutocompleteConfiguration // cut me
+} // cut me

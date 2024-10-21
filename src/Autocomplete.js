@@ -37,7 +37,13 @@ class Autocomplete {
         this.resultsCache = {};
         this.isLoading = false;
         this.isActive = false;
+
+        this.configuration.initialData.forEach((item) => {
+            this.addValue(item);
+        })
+
         this.display();
+        this.showSelection();
 
         this.searchOffset = null;
 
@@ -53,6 +59,9 @@ class Autocomplete {
                 return
             }
             if (event.target.classList.contains('autoCompleteSelectionCloser')) {
+                return
+            }
+            if (event.target.classList.contains('resultContainer')) {
                 return
             }
             this.debug(event.target)
@@ -245,28 +254,50 @@ class Autocomplete {
             return this;
         }
         let hasValue = false;
+        this.values.forEach((thisValue) => {
+            if (thisValue[this.configuration.valueKeyOfData] === value) {
+                hasValue = true;
+            }
+        })
 
-        if (-1 !== this.values.indexOf(value)) {
-            this.removeValue(value);
+        if (true === hasValue) {
+            this.removeValue(item);
             return this;
         }
 
-        this.values.push(value);
-        const getUniqueValues = (array) => (
+        if (this.configuration.maxItemsSelected > 1) {
+            if (this.values.length >= this.configuration.maxItemsSelected) {
+                return this;
+            }
+        }
+
+        this.values.push(item);
+        /*const getUniqueValues = (array) => (
             [...new Set(array)]
         )
-        this.values = getUniqueValues(this.values)
+        this.values = getUniqueValues(this.values)*/
 
         return this;
     }
 
-    getSelectionElement(value, displayValue) {
+    getSelectionElement(item) {
         let element = document.createElement('span');
-        element.innerHTML = displayValue;
+        element.innerHTML = '<span style="display: inline-block;">' + item[this.configuration.getDisplaySelectKeyOfData()] + '</span>';
         element.style.background = '#fff'
         element.style.border = 'solid 1px #000'
+        element.style['border-radius'] = '10px'
         element.style.color = '#000'
-        element.style['min-width'] = '150px'
+        element.style.padding = '3px'
+        element.style['padding-right'] = '10px'
+        if (1 === this.configuration.maxItemsSelected) {
+            element.style['width'] = 'calc(100% - 15px)'
+
+        }
+        if (1 !== this.configuration.maxItemsSelected) {
+            //element.style['min-width'] = '150px'
+            element.style['margin-right'] = '5px'
+        }
+
         element.style.display = 'inline-block'
 
         let closer = document.createElement('span')
@@ -274,28 +305,41 @@ class Autocomplete {
         closer.classList.add('autoCompleteSelectionCloser')
         closer.style.display = 'inline-block'
         closer.style.position = 'relative'
+        closer.style.padding = '5px'
+        closer.style.background = '#444'
+        closer.style.color = '#fff'
         closer.style.right = '0px'
-        closer.style['margin-left'] = '20px'
+        closer.style.border = 'solid 1px #000'
+        closer.style['border-radius'] = '5px'
+        closer.style['margin-right'] = '10px'
+        closer.style['cursor'] = 'pointer'
 
         closer.addEventListener('click', () => {
             element.remove()
-            this.removeValue(value)
+            this.removeValue(item)
             this.userInput.focus()
         })
-        element.append(closer)
+        element.prepend(closer)
 
         return element;
     }
 
     showSelection() {
         this.selectionContainer.innerHTML = '';
-        if (null !== this.displayValue) {
-            this.selectionContainer.append(this.getSelectionElement(this.value, this.displayValue))
+        let hasSelection = false;
+        if (null !== this.value) {
+            this.selectionContainer.append(this.getSelectionElement(this.value))
+            hasSelection = true;
         }
         if (0 !== this.values.length) {
-            for (const [value, displayValue] of Object.entries(this.values)) {
-                this.selectionContainer.append(this.getSelectionElement(value, displayValue))
-            }
+            hasSelection = true;
+            this.values.forEach((value) => {
+                this.selectionContainer.append(this.getSelectionElement(value))
+            })
+        }
+        this.selectionContainer.style.display = 'block'
+        if (false === hasSelection) {
+            this.selectionContainer.style.display = 'none'
         }
 
         return this;
@@ -306,15 +350,18 @@ class Autocomplete {
 
         this.resultsContainer.style.display = 'block'
         this.selectionContainer.style.display = 'block';
+        this.selectionContainer.style.border = 'solid 1px #000';
+        this.selectionContainer.style.background = '#fff';
+        this.selectionContainer.style.padding = '5px';
         if (null === this.results || false === this.isActive) {
             this.resultsContainer.style.display = 'none'
+            this.showSelection();
             return;
         }
 
+
         this.showSelection();
 
-        this.selectionContainer.style.border = 'solid 1px #000';
-        this.selectionContainer.style.background = '#000';
 
         const rect = this.userInput.getClientRects();
         this.resultsContainer.style.top = rect.bottom + 'px'
@@ -331,10 +378,30 @@ class Autocomplete {
 
         this.resultsContainer.innerHTML = '';
 
+        if (0 === this.results.length) {
+            this.resultsContainer.innerHTML = this.configuration.translationNoResults
+        }
+
         this.results.forEach(item => {
             const div = document.createElement('div');
-            div.innerHTML = item[this.configuration.getDisplaySearchKeyOfData()];
+            let isSelected = false;
+            if (1 === this.configuration.maxItemsSelected) {
+                if (null !== this.value) {
+                    isSelected = this.value[this.configuration.valueKeyOfData] === item[this.configuration.valueKeyOfData];
+                }
+            }
+            if (1 !== this.configuration.maxItemsSelected) {
+                this.values.forEach((value) => {
+                    isSelected = isSelected || value[this.configuration.valueKeyOfData] === item[this.configuration.valueKeyOfData];
+                })
+            }
+            let prefix = '<span style="color: #fff">✓ </span>';
+            if (true === isSelected) {
+                prefix = '✓ ';
+            }
+            div.innerHTML = prefix + item[this.configuration.getDisplaySearchKeyOfData()];
             div.classList.add('autocomplete-item');
+            div.style.cursor = 'pointer'
             div.addEventListener('click', (event) => {
                 event.stopPropagation()
                 event.preventDefault()
@@ -354,6 +421,6 @@ class Autocomplete {
     }
 }
 
-if (typeof module != 'undefined') {
-    module.exports = Autocomplete
-}
+if (typeof module != 'undefined') { //cut me
+    module.exports = Autocomplete // cut me
+} // cut me

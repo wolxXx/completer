@@ -21,6 +21,7 @@
                 document.addEventListener('DOMContentLoaded', () => {
                     new Autocomplete(
                         new AutocompleteConfiguration()
+                            .enableDebug()
                             .setElementId('inputDemo1')
                             .setData([
                                 {
@@ -50,6 +51,7 @@
                 document.addEventListener('DOMContentLoaded', () => {
                     new Autocomplete(
                         new AutocompleteConfiguration()
+                            .enableDebug()
                             .setElementId('inputDemo2')
                             .setData([
                                 {
@@ -79,6 +81,7 @@
                 document.addEventListener('DOMContentLoaded', () => {
                     new Autocomplete(
                         new AutocompleteConfiguration()
+                            .enableDebug()
                             .setElementId('inputDemo3')
                             .setInitialData([
                                 {value: 'bar'}
@@ -98,6 +101,40 @@
                                 },
                             ])
                             .setMaxItemsSelected(1)
+                    )
+                });
+            </script>
+        </div>
+        <div>
+            <p>
+                max selection = 3, with initial data
+            </p>
+            <input type="text" id="inputDemo4" value="" />
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Autocomplete(
+                        new AutocompleteConfiguration()
+                            .enableDebug()
+                            .setElementId('inputDemo4')
+                            .setInitialData([
+                                {value: 'bar'},
+                                {value: 'foo'},
+                            ])
+                            .setData([
+                                {
+                                    value: 'foo'
+                                },
+                                {
+                                    value: 'bar'
+                                },
+                                {
+                                    value: 'lorem'
+                                },
+                                {
+                                    value: 'ipsum'
+                                },
+                            ])
+                            .setMaxItemsSelected(3)
                     )
                 });
             </script>

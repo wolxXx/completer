@@ -1,16 +1,22 @@
-const { src, dest } = require('gulp');
+const { src, dest, series } = require('gulp');
 const concat = require('gulp-concat');
+const deleteLines = require('gulp-delete-lines');
 
-
-
-function defaultTask() {
+function concatToDist() {
     return src('./src/*.js')
         .pipe(concat('completer.js'))
-        .pipe(dest('./dist'));
-
-    return src('./src/AutocompleteConfiguration.js')
-        .pipe(src('./src/Foo.js'))
-        .pipe(dest('./dist/'));
+        .pipe(dest('./dist'))
+        ;
+}
+function cleanCuttersFromDist() {
+    return src('./dist/completer.js')
+        .pipe(deleteLines({
+            'filters': [
+                /cut me/i
+            ]
+        }))
+        .pipe(dest('./dist'))
+        ;
 }
 
-exports.default = defaultTask
+exports.default = series(concatToDist, cleanCuttersFromDist);

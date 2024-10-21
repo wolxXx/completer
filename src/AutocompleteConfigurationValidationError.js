@@ -1,4 +1,3 @@
-
 class AutocompleteConfigurationValidationError extends Error {
     constructor(message) {
         super(message);
@@ -6,6 +5,6 @@ class AutocompleteConfigurationValidationError extends Error {
     }
 }
 
-if (typeof module != 'undefined') {
-    module.exports = AutocompleteConfigurationValidationError
-}
+if (typeof module != 'undefined') { // cut me
+    module.exports = AutocompleteConfigurationValidationError // cut me
+} // cut me
