@@ -361,8 +361,6 @@ class Autocomplete {
 if (typeof module != 'undefined') {
     module.exports = Autocomplete
 }
-
-
 class AutocompleteConfiguration {
     constructor() {
         /**
@@ -400,7 +398,7 @@ class AutocompleteConfiguration {
 
         this.cacheResultsSeconds = 0; // how long results should be cached, 0 for no cache
 
-        this.saerchDelay = 100; // wait milliseconds until a search will be made, prevents enormous unused traffic
+        this.searchDelay = 100; // wait milliseconds until a search will be made, prevents enormous unused traffic
 
         /**
          * @type {string}
@@ -442,6 +440,10 @@ class AutocompleteConfiguration {
 
         if ((null !== this.relativeSearchUrl || null !== this.absoluteSearchUrl) && null === this.searchGetKey && null === this.searchPostKey) {
             throw new AutocompleteConfigurationValidationError('search get key or search post key is needed');
+        }
+
+        if (null === this.valueKeyOfData) {
+            throw new AutocompleteConfigurationValidationError('value key of data is needed');
         }
 
         return this;
@@ -624,6 +626,16 @@ class AutocompleteConfiguration {
      */
     setCacheResultsSeconds(value) {
         this.cacheResultsSeconds = value;
+
+        return this;
+    }
+
+    /**
+     * @param {Number} value
+     * @returns {AutocompleteConfiguration}
+     */
+    setSearchDelay(value) {
+        this.searchDelay = value;
 
         return this;
     }

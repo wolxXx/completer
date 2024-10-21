@@ -67,7 +67,7 @@ class Autocomplete {
             window.setTimeout(() => {
                 this.search(this.userInput.value);
                 this.display();
-            }, 300)
+            }, this.configuration.searchDelay ?? 300)
         });
 
         this.userInput.addEventListener('focus', () => {
@@ -75,17 +75,7 @@ class Autocomplete {
             window.setTimeout(() => {
                 this.search(this.userInput.value);
                 this.display();
-            }, 300)
-        });
-
-
-        this.userInput.addEventListener('blur', () => {
-            setTimeout(() => {
-                return
-                this.isActive = false;
-                this.display()
-            }, 100)
-
+            }, this.configuration.searchDelay ?? 300)
         });
     }
 
@@ -242,14 +232,20 @@ class Autocomplete {
         let value = item[this.configuration.valueKeyOfData];
         this.input.value = value;
         if (1 === this.configuration.maxItemsSelected) {
-            if (this.value !== value) {
-                this.value = value;
+            if (null === this.value) {
+                this.value = item;
+                return this;
+            }
+            if (this.value[this.configuration.valueKeyOfData] !== value[this.configuration.valueKeyOfData]) {
+                this.value = item;
                 return this;
             }
             this.value = null;
 
             return this;
         }
+        let hasValue = false;
+
         if (-1 !== this.values.indexOf(value)) {
             this.removeValue(value);
             return this;

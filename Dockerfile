@@ -15,6 +15,6 @@ RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir './fnm'
 
 RUN ln -s /root/.local/share/fnm/node-versions/*/installation/bin/* /usr/local/bin/.
 
-WORKDIR /tmp
+WORKDIR /tmp/completer
 
 CMD ["/bin/bash"]

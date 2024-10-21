@@ -1,0 +1,107 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Autocomplete - Demo</title>
+    <style type="text/css">
+        .container {
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <script src="dist/completer.js"></script>
+        <div>
+            <p>
+                max selection = 1
+            </p>
+            <input type="text" id="inputDemo1" value="" />
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Autocomplete(
+                        new AutocompleteConfiguration()
+                            .setElementId('inputDemo1')
+                            .setData([
+                                {
+                                    value: 'foo'
+                                },
+                                {
+                                    value: 'bar'
+                                },
+                                {
+                                    value: 'lorem'
+                                },
+                                {
+                                    value: 'ipsum'
+                                },
+                            ])
+                            .setMaxItemsSelected(1)
+                    )
+                });
+            </script>
+        </div>
+        <div>
+            <p>
+                max selection = 2
+            </p>
+            <input type="text" id="inputDemo2" value="" />
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Autocomplete(
+                        new AutocompleteConfiguration()
+                            .setElementId('inputDemo2')
+                            .setData([
+                                {
+                                    value: 'foo'
+                                },
+                                {
+                                    value: 'bar'
+                                },
+                                {
+                                    value: 'lorem'
+                                },
+                                {
+                                    value: 'ipsum'
+                                },
+                            ])
+                            .setMaxItemsSelected(2)
+                    )
+                });
+            </script>
+        </div>
+        <div>
+            <p>
+                max selection = 1, with initial data
+            </p>
+            <input type="text" id="inputDemo3" value="" />
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new Autocomplete(
+                        new AutocompleteConfiguration()
+                            .setElementId('inputDemo3')
+                            .setInitialData([
+                                {value: 'bar'}
+                            ])
+                            .setData([
+                                {
+                                    value: 'foo'
+                                },
+                                {
+                                    value: 'bar'
+                                },
+                                {
+                                    value: 'lorem'
+                                },
+                                {
+                                    value: 'ipsum'
+                                },
+                            ])
+                            .setMaxItemsSelected(1)
+                    )
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>
