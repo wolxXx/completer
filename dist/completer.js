@@ -125,6 +125,9 @@ class Autocomplete {
         query = String(query).toString();
         query = query.toLowerCase();
         query = query.trim();
+        if (this.configuration.requestStartCallback) {
+            this.configuration.requestStartCallback(query);
+        }
         if (query in this.resultsCache && false !== this.resultsCache[query]) {
 
             this.results = this.resultsCache[query];
@@ -132,6 +135,9 @@ class Autocomplete {
                 .indicateLoading(false)
                 .display()
 
+            if (this.configuration.requestEndCallback) {
+                this.configuration.requestEndCallback(query, this.results);
+            }
             return;
         }
 
@@ -162,6 +168,9 @@ class Autocomplete {
                 .indicateLoading(false)
                 .display()
             ;
+            if (this.configuration.requestEndCallback) {
+                this.configuration.requestEndCallback(query, this.results);
+            }
 
             return;
         }
@@ -201,11 +210,18 @@ class Autocomplete {
                 this.results = data
                 this.cacheResult(query, data)
                 this.display();
+                if (this.configuration.requestEndCallback) {
+                    this.configuration.requestEndCallback(query, this.results);
+                }
             })
             .catch(error => {
+                this.results = null
                 this.isLoading = false;
-                this.resultsContainer.innerHTML = 'an error occurred';
+                this.resultsContainer.innerHTML = this.configuration.translationErrorMessage;
                 console.error('Error fetching autocomplete data:', error);
+                if (this.configuration.requestEndCallback) {
+                    this.configuration.requestEndCallback(query, this.results);
+                }
             });
     }
 
