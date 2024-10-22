@@ -1,6 +1,63 @@
 # completer
 simple js autocompletion
 
+
+here is a [demo page](https://wolxxx.github.io/completer/demo.html) - you can submit the form and check the request data via inspection
+<br>
+i am working on the documentation ;) 
+<br />
+
+if you have any ideas about improvements, found some bugs, 
+please let me know and [open a ticket](https://github.com/wolxXx/completer/issues).
+
+## about
+i needed a simple completer / suggester for one of the forms in a project. <br />
+in the past i used select2, a quite awesome project. unfortunately this project
+is based on jquery and i do my projects in vanilla js nowerdays. <br />
+all other projects i found were buggy, had lacks for configurations.. <br />
+so i decided to do it on my own.. 
+<p></p>
+here is my version of a js autocompleter :) 
+<p>
+you instantiate a new configuration object, get guided via fluent setters 
+and pass that configuration to a new instance of the autocompleter class.
+</p>
+<p>
+You can decide if you want to provide all available data via an array or
+provide the data behind an api. This script can do a post or a get request. 
+You can specify additional headers that may include an api key or something 
+like that. You can specify the data key, default is 'term'.
+</p>
+<p>
+As search operations can be expensive, you can choose to cache the results. 
+If you set the cache time to 0, no cache will be created. Otherwise the cache
+for one term will last the seconds you provide. 
+</p>
+<p>
+You can choose if you want one or more items to be selected via
+the 'setMaxItemsSelected' method.
+</p>
+<p>
+If you have more than one element that you want to autocomplete, you can
+create a base configuration instance and clone it. So you do not have to 
+create and copy a bunch of code. 
+</p>
+<p>
+Of course you can specify translations so your users are provided terms
+in their language they can understand.
+</p>
+<br /><br />
+You can specify the name of the key for the value that will be stored in the 
+origin input, that data will be sent to the server in the request. <br /><br />
+
+
+If you want to display user-friendly data, you can specify two other keys:<br /> 
+
+ - displaySearchKeyOfData -> will the displayed in favour of the value while searching<br /><br />
+ - displaySelectKeyOfData -> will be displayed in favour of the displaySearchKeyOfData or value after selecting a result<br /> 
+
+
+
 ## configuration
 get a fresh configuration object
 ```js
@@ -53,6 +110,135 @@ conf.setMaxItemsSelected(2)
 ```
 
 ### Fixed data set
+You can set the available data via
+```js
+conf.setData([
+    {value: 'foorem'},
+    {value: 'barsum'},
+    {value: 'red'},
+    {value: 'black'},
+    {value: 'blue'},
+])
+```
+
+
+### search url (absolute)
+You can specify the absolute url for searching. If you choose to use get requests, the search will be appended 
+to the get-parameter-list. <br />
+We need to distinguish if the search url is relative or absolute because of possible additional parameters in 
+the url. 
+```js
+conf.setAbsoluteSearchUrl('https://foo.bar.com/search/colors?some=data&more=data')
+```
+
+### search url (relative)
+You can specify the relative url for searching. If you choose to use get requests, the search will be appended 
+to the get-parameter-list.<br />
+We need to distinguish if the search url is relative or absolute because of possible additional parameters in
+the url.
+```js
+conf.setRelativeSearchUrl('/search/colors?some=data&more=data')
+```
+
+### search post key
+If the script should do an ajax post request, you can specify the key of the data. Default is 'term';
+```js
+conf.setSearchPostKey('search')
+```
+
+### search get key
+If the script should do an ajax get request, you can specify the key of the data. Default is 'term';
+```js
+conf.setSearchGetKey('search')
+```
+
+### additional headers
+Nowadays it is almost mandatory to send some headers to an api to fulfill the request requirements. 
+This may include api keys, origins, or something like that.<br />
+<br />
+clear all headers: 
+```js
+conf.clearAdditionalHeaders()
+```
+add a single header: 
+```js
+conf
+    .addAdditionalHeader('key', 'value')
+    .addAdditionalHeader('api-key', 'some-uuid-value')
+```
+
+### cache results
+
+enable caching for one second:
+```js
+conf.setCacheResultsSeconds(1)
+```
+
+enable caching for 20 seconds:
+```js
+conf.setCacheResultsSeconds(20)
+```
+
+disable caching:
+```js
+conf.setCacheResultsSeconds(0)
+```
+
+### delay searching
+
+If you want to delay the requests made to the server / api, you can
+specify the milliseconds the script waits until the request is made.  
+The default value is 100.
+```js
+conf.setSearchDelay(0)
+```
+
+
+### callbacks
+
+You can provide callbacks that will be called.<br />
+
+On starting a request: 
+```js
+conf.setRequestStartCallback(function (query) {
+    console.log('searching for ' + query);
+})
+```
+On request is finished: 
+```js
+conf.setRequestEndCallback(function (query, results) {
+    console.log('searching ended for ' + query);
+    console.log(results);
+})
+```
+On selecting a result: 
+```js
+conf.setSelectCallback(function (item) {
+    console.log('picked result');
+    console.log(item);
+})
+```
+
+### translations
+
+You can provide callbacks that will be called.<br />
+
+Placeholder in search input:  
+```js
+conf.setTranslationPlaceholder('type to search') //default
+conf.setTranslationPlaceholder('Tippen für Suche')
+conf.setTranslationPlaceholder('dotknij, aby wyszukać')
+conf.setTranslationPlaceholder('appuyez pour rechercher')
+```
+
+No results found for search term:  
+```js
+conf.setTranslationNoResults('no results') //default
+conf.setTranslationNoResults('keine Treffer')
+conf.setTranslationNoResults('żadnych trafień')
+conf.setTranslationNoResults('aucun succès')
+```
+
 
 ## Example configuration with provided data
 
