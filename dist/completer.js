@@ -247,6 +247,7 @@ class Autocomplete {
     }
 
     removeValue(value) {
+        this.input.value = null;
         if (1 === this.configuration.maxItemsSelected) {
             this.value = null;
 
